@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portrait Web Page with Photo Rain</title>
+<style>
+  body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(255, 255, 255);
+    overflow: hidden;
+    position: relative;
+  }
+  #rainContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .raindrop {
+    position: absolute;
+    width: 60px; /* Adjust the size as needed */
+    height: 60px; /* Adjust the size as needed */
+    border-radius: 50%; /* Make it round */
+    background-size: cover;
+    animation: fall 6s ease-in-out infinite;
+  }
+  @keyframes fall {
+    0% {
+      transform: translateY(-40px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(calc(100vh + 40px));
+      opacity: 1;
+    }
+  }
+  img {
+    display: none;
+    max-width: 600px;
+    max-height: auto;
+  }
+
+  #canvas {
+    position: absolute;
+  }
+  #birthday-container {
+    text-align: center;
+    position: absolute;
+    top: 20%; /* Adjust the position */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2; /* Set a higher z-index to ensure visibility above rain */
+  }
+  #message {
+    font-size: 36px;
+    color: transparent;
+    background: linear-gradient(to right, #8bdaff, #fac4d4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: fade-in 3s ease-in-out forwards;
+    opacity: 0;
+  }
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="rainContainer"></div>
+<canvas id="canvas"></canvas>
+<div id="birthday-container">
+    <p id="message">Happy Birthday Sru!</p>
+</div>
+<img id="portraitImage" src="pngwing.com.png" alt="Portrait Image">
+<audio id="backgroundMusic" loop>
+  <source src="happy-birthday-music-box.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+  const portraitImage = document.getElementById('portraitImage');
+  const backgroundMusic = document.getElementById('backgroundMusic');
+  const rainContainer = document.getElementById('rainContainer');
+  const birthdayContainer = document.getElementById('birthday-container');
+
+  const raindropImages = [
+    '1.jpg',
+    '2.jpg',
+    '3.jpg',
+    '4.jpg',
+    '5.jpg',
+    '6.jpg',
+    '7.jpg',
+    '8.jpg',
+    '9.jpg',
+    '10.png',
+    '11.png',
+    '12.png',
+    // Add more image URLs here
+  ];
+
+  let isVisible = false;
+  let isRaining = false; // To track rain status
+
+  document.body.addEventListener('click', () => {
+    if (!isVisible) {
+      portraitImage.style.display = 'block';
+      backgroundMusic.play();
+      isVisible = true;
+    }
+
+    if (!isRaining) {
+      startRain();
+      showBirthdayMessage();
+      isRaining = true;
+    }
+  });
+
+  // Shuffle the raindropImages array
+  shuffleArray(raindropImages);
+
+  // Create raindrops
+  function startRain() {
+    // Create raindrops with animation
+    for (let i = 0; i < 40; i++) {
+      const raindrop = document.createElement('div');
+      raindrop.classList.add('raindrop');
+      raindrop.style.left = `${Math.random() * 100}vw`;
+      raindrop.style.top = `${Math.random() * -100}%`;
+      raindrop.style.backgroundImage = `url(${raindropImages[i % raindropImages.length]})`;
+      raindrop.style.animation = `fall ${Math.random() * 5 + 2}s linear infinite`; // Add animation with random duration
+      rainContainer.appendChild(raindrop);
+    }
+  }
+
+  function showBirthdayMessage() {
+    birthdayContainer.style.display = 'block';
+  }
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+</script>
+</body>
+</html>
