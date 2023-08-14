@@ -11,7 +11,10 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: rgb(255, 255, 255);
+    background-image: url('Happy-Birthday-6.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     overflow: hidden;
     position: relative;
   }
@@ -41,11 +44,28 @@
       opacity: 1;
     }
   }
-  img {
-    display: none;
+  #portraitImage {
+    display: auto;
     max-width: 600px;
     max-height: auto;
-  }
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fade-in 3s ease-in-out forwards;
+    opacity: 0;
+}
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.hidden {
+    display: none;
+}
 
   #canvas {
     position: absolute;
@@ -84,78 +104,14 @@
 <div id="birthday-container">
     <p id="message">Happy Birthday Sru!</p>
 </div>
-<img id="portraitImage" src="pngwing.com.png" alt="Portrait Image">
+<img id="portraitImage" src="pngwing.com.png" alt="Portrait Image" class="hidden">
 <audio id="backgroundMusic" loop>
   <source src="happy-birthday-music-box.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
-<script>
-  const portraitImage = document.getElementById('portraitImage');
-  const backgroundMusic = document.getElementById('backgroundMusic');
-  const rainContainer = document.getElementById('rainContainer');
-  const birthdayContainer = document.getElementById('birthday-container');
+<script src="app.js">
 
-  const raindropImages = [
-    '1.jpg',
-    '2.jpg',
-    '3.jpg',
-    '4.jpg',
-    '5.jpg',
-    '6.jpg',
-    '7.jpg',
-    '8.jpg',
-    '9.jpg',
-    '10.png',
-    '11.png',
-    '12.png',
-    // Add more image URLs here
-  ];
-
-  let isVisible = false;
-  let isRaining = false; // To track rain status
-
-  document.body.addEventListener('click', () => {
-    if (!isVisible) {
-      portraitImage.style.display = 'block';
-      backgroundMusic.play();
-      isVisible = true;
-    }
-
-    if (!isRaining) {
-      startRain();
-      showBirthdayMessage();
-      isRaining = true;
-    }
-  });
-
-  // Shuffle the raindropImages array
-  shuffleArray(raindropImages);
-
-  // Create raindrops
-  function startRain() {
-    // Create raindrops with animation
-    for (let i = 0; i < 40; i++) {
-      const raindrop = document.createElement('div');
-      raindrop.classList.add('raindrop');
-      raindrop.style.left = `${Math.random() * 100}vw`;
-      raindrop.style.top = `${Math.random() * -100}%`;
-      raindrop.style.backgroundImage = `url(${raindropImages[i % raindropImages.length]})`;
-      raindrop.style.animation = `fall ${Math.random() * 5 + 2}s linear infinite`; // Add animation with random duration
-      rainContainer.appendChild(raindrop);
-    }
-  }
-
-  function showBirthdayMessage() {
-    birthdayContainer.style.display = 'block';
-  }
-
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  }
 </script>
 </body>
 </html>
